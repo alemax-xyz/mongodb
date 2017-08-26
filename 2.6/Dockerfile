@@ -1,7 +1,13 @@
+#
+# This is a multi-stage build.
+# Actual build is at the very end.
+#
+
 FROM library/ubuntu:xenial AS build
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG C.UTF-8
+
 RUN apt-get update && \
     apt-get install -y \
         python-software-properties \
@@ -11,25 +17,25 @@ RUN apt-get update && \
 RUN mkdir -p /build/image
 WORKDIR /build
 RUN apt-get download \
-    mongodb \
-    mongodb-server \
-    mongodb-clients \
-    libboost-filesystem1.58.0 \
-    libboost-program-options1.58.0 \
-    libboost-system1.58.0 \
-    libboost-thread1.58.0 \
-    libgoogle-perftools4 \
-    libpcap0.8 \
-    libpcre3 \
-    libpcrecpp0v5 \
-    libsnappy1v5 \
-    libssl1.0.0 \
-    libstdc++6 \
-    libv8-3.14.5 \
-    libyaml-cpp0.5v5 \
-    libtcmalloc-minimal4 \
-    libunwind8 \
-    liblzma5
+        mongodb \
+        mongodb-server \
+        mongodb-clients \
+        libboost-filesystem1.58.0 \
+        libboost-program-options1.58.0 \
+        libboost-system1.58.0 \
+        libboost-thread1.58.0 \
+        libgoogle-perftools4 \
+        libpcap0.8 \
+        libpcre3 \
+        libpcrecpp0v5 \
+        libsnappy1v5 \
+        libssl1.0.0 \
+        libstdc++6 \
+        libv8-3.14.5 \
+        libyaml-cpp0.5v5 \
+        libtcmalloc-minimal4 \
+        libunwind8 \
+        liblzma5
 RUN for file in *.deb; do dpkg-deb -x ${file} image/; done
 
 WORKDIR /build/image

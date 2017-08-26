@@ -1,7 +1,13 @@
+#
+# This is a multi-stage build.
+# Actual build is at the very end.
+#
+
 FROM library/ubuntu:xenial AS build
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG C.UTF-8
+
 RUN apt-get update && \
     apt-get install -y \
         python-software-properties \
@@ -14,12 +20,12 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14
 RUN mkdir -p /build/image
 WORKDIR /build
 RUN apt-get download \
-    mongodb-org \
-    mongodb-org-mongos \
-    mongodb-org-server \
-    mongodb-org-shell \
-    mongodb-org-tools \
-    libssl1.0.0
+        mongodb-org \
+        mongodb-org-mongos \
+        mongodb-org-server \
+        mongodb-org-shell \
+        mongodb-org-tools \
+        libssl1.0.0
 RUN for file in *.deb; do dpkg-deb -x ${file} image/; done
 
 WORKDIR /build/image
