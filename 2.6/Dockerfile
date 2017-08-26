@@ -58,6 +58,8 @@ FROM clover/base
 WORKDIR /
 COPY --from=build /build/image /
 
+VOLUME ["/var/lib/mongodb"]
+
 CMD ["mongod", "-f", "/etc/mongodb.conf"]
 
 EXPOSE 27017

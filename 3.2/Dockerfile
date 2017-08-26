@@ -14,7 +14,7 @@ RUN apt-get update && \
         software-properties-common \
         apt-utils
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv D68FA50FEA312927 && \
-    echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" > /etc/apt/sources.list.d/mongodb-org-3.2.list && \
+    echo "deb [ arch=amd64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" > /etc/apt/sources.list.d/mongodb-org-3.2.list && \
     apt-get update
 
 RUN mkdir -p /build/image
@@ -45,6 +45,8 @@ FROM clover/base
 ENV LC_ALL C
 WORKDIR /
 COPY --from=build /build/image /
+
+VOLUME ["/var/lib/mongodb"]
 
 CMD ["mongod", "-f", "/etc/mongod.conf"]
 
